@@ -1,0 +1,29 @@
+# Python/Django
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+*.env  # Environment variables (e.g., for Stripe keys)
+
+# Databases
+*.sqlite3  # Default Django DB (if you’re not using PostgreSQL everywhere)
+
+# Media (optional in development, include in .gitignore for production)
+media/
+
+# Static files collected for production
+staticfiles/
+
+# Logs
+*.log
+
+# IDEs
+.vscode/
+.idea/
+
+# macOS
+.DS_Store

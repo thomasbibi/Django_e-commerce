@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}Cart - E-Commerce{% endblock %}
+
+{% block content %}
+    <h1>Your Cart</h1>
+    {% if cart_items %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                    <tr>
+                        <td>{{ item.product.title }}</td>
+                        <td>₹{{ item.product.price }}</td>
+                        <td>
+                            <form method="POST" action="{% url 'cart' %}" class="d-inline">
+                                {% csrf_token %}
+                                <input type="hidden" name="action" value="update">
+                                <input type="hidden" name="item_id" value="{{ item.id }}">
+                                <input type="number" name="quantity" value="{{ item.quantity }}" min="0" class="form-control w-50 d-inline">
+                                <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                            </form>
+                        </td>
+                        <td>₹{{ item.total|floatformat:2 }}</td>
+                        <td>
+                            <form method="POST" action="{% url 'cart' %}" class="d-inline">
+                                {% csrf_token %}
+                                <input type="hidden" name="action" value="remove">
+                                <input type="hidden" name="item_id" value="{{ item.id }}">
+                                <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p class="fw-bold">Total Price: ₹{{ total_price }}</p>
+        <div class="d-flex justify-content-between">
+            <form method="POST" action="{% url 'cart' %}">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="clear">
+                <button type="submit" class="btn btn-warning">Clear Cart</button>
+            </form>
+            <a href="{% url 'checkout' %}" class="btn btn-success">Proceed to Checkout</a>
+        </div>
+    {% else %}
+        <p>Your cart is empty.</p>
+        <a href="{% url 'index' %}" class="btn btn-primary">Continue Shopping</a>
+    {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+
+{% endblock %}
